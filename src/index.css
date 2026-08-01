@@ -1,0 +1,24 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Tokens de tema — estética tech minimalista, modo claro. */
+:root {
+  --color-background: 248 250 252; /* slate-50 */
+  --color-surface: 255 255 255;
+  --color-foreground: 15 23 42; /* slate-900 */
+  --color-muted: 100 116 139; /* slate-500 */
+  --color-border: 226 232 240; /* slate-200 */
+  --color-primary: 37 99 235; /* blue-600, azul técnico sobrio */
+  --color-accent: 59 130 246; /* blue-500 */
+  --color-danger: 220 38 38; /* red-600 */
+
+  --font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  --radius: 0.625rem;
+
+  color-scheme: light;
+}
+
+body {
+  @apply bg-background text-foreground font-sans antialiased;
+}
