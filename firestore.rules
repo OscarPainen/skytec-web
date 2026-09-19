@@ -1,24 +1,29 @@
 rules_version = '2';
 
-// Reglas de Firestore para skytec-form.
+// Reglas de Firestore para skytec.
 // Se pegan manualmente en la consola: Firebase → Firestore → pestaña "Reglas".
 //
-// El formulario web usa auth ANÓNIMA y SOLO puede CREAR solicitudes con
-// estado "nueva". Nadie puede leer, editar ni borrar desde el cliente web.
-// La app de escritorio (Python) usa Admin SDK, que ignora estas reglas.
+// El formulario web (skytec-web) usa auth ANÓNIMA y SOLO puede CREAR
+// solicitudes. La app de escritorio (Python) usa Admin SDK, que ignora
+// estas reglas.
 
 service cloud.firestore {
   match /databases/{database}/documents {
+    
+    // Solicitudes de reparación desde el formulario web
     match /solicitudes/{id} {
-
       allow create: if request.auth != null
                     && request.resource.data.estado == "nueva"
                     && request.resource.data.cliente_nombre is string
                     && request.resource.data.cliente_nombre.size() > 2
                     && request.resource.data.modelo_telefono is string;
-
-      // Nadie lee, edita ni borra desde el cliente web.
       allow read, update, delete: if false;
+    }
+
+    // Configuración del sistema (versión, actualizaciones)
+    // Solo la app de escritorio (Admin SDK) puede leer/escribir
+    match /sistema/{doc} {
+      allow read, write: if false;
     }
   }
 }
